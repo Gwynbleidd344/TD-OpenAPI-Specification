@@ -13,8 +13,8 @@ paths:
         '200':
           description: returned a pong
           content:
-            application/json:
+            text/plain:
               schema:
-                type: text/plain
+                type: string
 
   
