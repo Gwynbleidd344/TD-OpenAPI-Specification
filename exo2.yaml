@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: User managing API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /users:
+    get:
+      summary: User list
+      description: Récupère une liste d'utilisateurs avec pagination.
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: number
+            default: 1
+        - name: size
+          in: query
+          description: Page size 
+          schema:
+            type: number
+            default: 20
+      responses:
