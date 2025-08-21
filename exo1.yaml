@@ -12,5 +12,9 @@ paths:
       responses:
         '200':
           description: returned a pong
+          content:
+            application/json:
+              schema:
+                type: text/plain
 
   
