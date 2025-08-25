@@ -1,0 +1,10 @@
+openapi: 3.0.0
+info:
+  title: Product Search API
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: Search for products
+      parameters:
+
