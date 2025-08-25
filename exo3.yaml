@@ -64,3 +64,32 @@ paths:
                     completed:
                       type: boolean
                       example: false
+    delete:
+      summary: Delete a list of tasks by their IDs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: number
+      responses:
+        '200':
+          description: Tasks successfully deleted.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 1
+                    title:
+                      type: string
+                      example: "Do the shopping"
+                    completed:
+                      type: boolean
+                      example: false
