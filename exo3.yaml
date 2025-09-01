@@ -14,17 +14,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                      example: 1
-                    title:
-                      type: string
-                      example: "Do the shopping"
-                    completed:
-                      type: boolean
-                      example: false
+                  $ref: '#/components/schemas/Task'
     post:
       summary: Create one or more tasks
       requestBody:
@@ -34,17 +24,7 @@ paths:
             schema:
               type: array
               items:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    example: 1
-                  title:
-                    type: string
-                    example: "Do the shopping"
-                  completed:
-                    type: boolean
-                    example: false
+                $ref: '#/components/schemas/Task'
       responses:
         '201':
           description: Tasks successfully created.
@@ -53,17 +33,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                      example: 1
-                    title:
-                      type: string
-                      example: "Do the shopping"
-                    completed:
-                      type: boolean
-                      example: false
+                  $ref: '#/components/schemas/Task'
     delete:
       summary: Delete a list of tasks by their IDs
       requestBody:
@@ -82,75 +52,60 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                      example: 1
-                    title:
-                      type: string
-                      example: "Do the shopping"
-                    completed:
-                      type: boolean
-                      example: false
+                  $ref: '#/components/schemas/Task'
   /tasks/{id}:
     get:
       summary: Get a task by its ID
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: number
+        - $ref: '#/components/parameters/TaskId'
       responses:
         '200':
           description: Task found.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    example: 1
-                  title:
-                    type: string
-                    example: "Do the shopping"
-                  completed:
-                    type: boolean
-                    example: false
+                $ref: '#/components/schemas/Task'
         '404':
           description: Task not found.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Task not found"
+                $ref: '#/components/schemas/Error'
     delete:
       summary: Delete a task by its ID
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: number
+        - $ref: '#/components/parameters/TaskId'
       responses:
         '200':
           description: Task successfully deleted.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    example: 1
-                  title:
-                    type: string
-                    example: "Do the shopping"
-                  completed:
-                    type: boolean
-                    example: false
+                $ref: '#/components/schemas/Task'
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: "Do the shopping"
+        completed:
+          type: boolean
+          example: false
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Task not found"
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: number
