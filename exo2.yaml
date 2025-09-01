@@ -8,18 +8,8 @@ paths:
       summary: User list
       description: Récupère une liste d'utilisateurs avec pagination.
       parameters:
-        - name: page
-          in: query
-          description: Page number
-          schema:
-            type: number
-            default: 1
-        - name: size
-          in: query
-          description: Page size
-          schema:
-            type: number
-            default: 20
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
       responses:
         '200':
           description: List of users
@@ -28,14 +18,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: number
-                    name:
-                      type: string
-                    email:
-                      type: string
+                  $ref: '#/components/schemas/User'
               examples:
                 user_list_exemple:
                   value:
@@ -50,9 +33,36 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Bad types for provided query parameters"
-
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        email:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Bad types for provided query parameters"
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Page number
+      schema:
+        type: number
+        default: 1
+    Size:
+      name: size
+      in: query
+      description: Page size
+      schema:
+        type: number
+        default: 20
