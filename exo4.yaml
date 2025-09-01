@@ -7,4 +7,60 @@ paths:
     get:
       summary: Search for products
       parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/qParam'
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              examples:
+                multipleProductsFound:
+                  value:
+                    - name: "Apple"
+                      expiration_datetime: "2025-10-26T10:00:00Z"
+                      price: 0.99
+                    - name: "Orange"
+                      expiration_datetime: "2025-11-01T12:30:00Z"
+                      price: 1.49
+                noProductsFound:
+                  value: []
 
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Apple"
+        expiration_datetime:
+          type: string
+          format: date-time
+          example: "2025-10-26T10:00:00Z"
+        price:
+          type: number
+          format: float
+          example: 0.99
+
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return.
+      required: false
+      schema:
+        type: integer
+      example: 10
+    qParam:
+      name: q
+      in: query
+      description: Search term.
+      required: false
+      schema:
+        type: string
+      example: "fresh"
