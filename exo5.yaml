@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  title: API with Authentication and Tags
+  version: 1.0.0
+paths:
+  /products:
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: number
+            default: 1
+        - name: size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: number
+            default: 20
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "Apple"
+                    expiration_datetime:
+                      type: string
+                      format: date-time
+                      example: "2025-10-26T10:00:00Z"
+                    price:
+                      type: number
+                      format: float
+                      example: 0.99
+              examples:
+                productsExample:
+                  value:
+                    - name: "Apple"
+                      expiration_datetime: "2025-10-26T10:00:00Z"
+                      price: 0.99
+                    - name: "Orange"
+                      expiration_datetime: "2025-11-01T12:30:00Z"
+                      price: 1.49
+  /orders:
+    get:
+      summary: Get paginated list of orders
+      tags:
+        - Orders
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: number
+            default: 1
+        - name: size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: number
+            default: 20
+      responses:
+        '200':
+          description: A list of orders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    identifier:
+                      type: integer
+                      example: 101
+                    customer_name:
+                      type: string
+                      example: "Alice"
+                    creation_datetime:
+                      type: string
+                      format: date-time
+                      example: "2025-08-28T14:00:00Z"
+                    total_amount:
+                      type: number
+                      format: float
+                      example: 50.75
+              examples:
+                ordersExample:
+                  value:
+                    - identifier: 101
+                      customer_name: "Alice"
+                      creation_datetime: "2025-08-28T14:00:00Z"
+                      total_amount: 50.75
+                    - identifier: 102
+                      customer_name: "Bob"
+                      creation_datetime: "2025-08-28T15:00:00Z"
+                      total_amount: 120.00
+    post:
+      summary: Create a new order
+      tags:
+        - Orders
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: integer
+                  example: 101
+                customer_name:
+                  type: string
+                  example: "Alice"
+                creation_datetime:
+                  type: string
+                  format: date-time
+                  example: "2025-08-28T14:00:00Z"
+                total_amount:
+                  type: number
+                  format: float
+                  example: 50.75
+            example:
+              identifier: 103
+              customer_name: "Charlie"
+              creation_datetime: "2025-08-29T09:00:00Z"
+              total_amount: 75.50
+      responses:
+        '201':
+          description: Order successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: integer
+                    example: 101
+                  customer_name:
+                    type: string
+                    example: "Alice"
+                  creation_datetime:
+                    type: string
+                    format: date-time
+                    example: "2025-08-28T14:00:00Z"
+                  total_amount:
+                    type: number
+                    format: float
+                    example: 50.75
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Authentication failed"
