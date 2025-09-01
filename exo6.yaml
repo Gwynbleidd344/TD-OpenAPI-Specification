@@ -1,0 +1,355 @@
+openapi: 3.0.0
+info:
+  title: User Profile Management API
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      summary: Create a list of users
+      description: Creates a list of users and returns the profiles with generated identifiers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - type: object
+                    properties:
+                      first_name:
+                        type: string
+                        example: "Jane"
+                      last_name:
+                        type: string
+                        example: "Doe"
+                      birthdate:
+                        type: string
+                        format: date
+                        example: "1990-05-15"
+                      email:
+                        type: string
+                        format: email
+                        example: "jane.doe@example.com"
+                  - type: object
+                    properties:
+                      address_street:
+                        type: string
+                        example: "123 Main St"
+                      address_city:
+                        type: string
+                        example: "Anytown"
+                      address_country:
+                        type: string
+                        example: "USA"
+                      address_postal_code:
+                        type: string
+                        example: "12345"
+                  - type: object
+                    properties:
+                      needs_newsletter:
+                        type: boolean
+                        example: true
+                      language:
+                        type: string
+                        enum:
+                          - mg
+                          - fr
+                          - eng
+                        example: "eng"
+            example:
+              - first_name: "Jane"
+                last_name: "Doe"
+                birthdate: "1990-05-15"
+                email: "jane.doe@example.com"
+                address_street: "123 Main St"
+                address_city: "Anytown"
+                address_country: "USA"
+                address_postal_code: "12345"
+                needs_newsletter: true
+                language: "eng"
+      responses:
+        '201':
+          description: Users successfully created.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - type: object
+                      properties:
+                        identifier:
+                          type: string
+                          example: "user-1234"
+                    - type: object
+                      properties:
+                        first_name:
+                          type: string
+                          example: "Jane"
+                        last_name:
+                          type: string
+                          example: "Doe"
+                        birthdate:
+                          type: string
+                          format: date
+                          example: "1990-05-15"
+                        email:
+                          type: string
+                          format: email
+                          example: "jane.doe@example.com"
+                    - type: object
+                      properties:
+                        address_street:
+                          type: string
+                          example: "123 Main St"
+                        address_city:
+                          type: string
+                          example: "Anytown"
+                        address_country:
+                          type: string
+                          example: "USA"
+                        address_postal_code:
+                          type: string
+                          example: "12345"
+                    - type: object
+                      properties:
+                        needs_newsletter:
+                          type: boolean
+                          example: true
+                        language:
+                          type: string
+                          enum:
+                            - mg
+                            - fr
+                            - eng
+                          example: "eng"
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile found.
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: "user-1234"
+                  - type: object
+                    properties:
+                      first_name:
+                        type: string
+                        example: "Jane"
+                      last_name:
+                        type: string
+                        example: "Doe"
+                      birthdate:
+                        type: string
+                        format: date
+                        example: "1990-05-15"
+                      email:
+                        type: string
+                        format: email
+                        example: "jane.doe@example.com"
+                  - type: object
+                    properties:
+                      address_street:
+                        type: string
+                        example: "123 Main St"
+                      address_city:
+                        type: string
+                        example: "Anytown"
+                      address_country:
+                        type: string
+                        example: "USA"
+                      address_postal_code:
+                        type: string
+                        example: "12345"
+                  - type: object
+                    properties:
+                      needs_newsletter:
+                        type: boolean
+                        example: true
+                      language:
+                        type: string
+                        enum:
+                          - mg
+                          - fr
+                          - eng
+                        example: "eng"
+    put:
+      summary: Update a user's full profile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - type: object
+                  properties:
+                    identifier:
+                      type: string
+                      example: "user-1234"
+                - type: object
+                  properties:
+                    first_name:
+                      type: string
+                      example: "Jane"
+                    last_name:
+                      type: string
+                      example: "Doe"
+                    birthdate:
+                      type: string
+                      format: date
+                      example: "1990-05-15"
+                    email:
+                      type: string
+                      format: email
+                      example: "jane.doe@example.com"
+                - type: object
+                  properties:
+                    address_street:
+                      type: string
+                      example: "123 Main St"
+                    address_city:
+                      type: string
+                      example: "Anytown"
+                    address_country:
+                      type: string
+                      example: "USA"
+                    address_postal_code:
+                      type: string
+                      example: "12345"
+                - type: object
+                  properties:
+                    needs_newsletter:
+                      type: boolean
+                      example: true
+                    language:
+                      type: string
+                      enum:
+                        - mg
+                        - fr
+                        - eng
+                      example: "eng"
+      responses:
+        '200':
+          description: Profile successfully updated.
+  /users/{id}/personalInfo:
+    put:
+      summary: Update a user's personal information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: "Jane"
+                last_name:
+                  type: string
+                  example: "Doe"
+                birthdate:
+                  type: string
+                  format: date
+                  example: "1990-05-15"
+                email:
+                  type: string
+                  format: email
+                  example: "jane.doe@example.com"
+      responses:
+        '200':
+          description: Personal information updated.
+  /users/{id}/address:
+    put:
+      summary: Update a user's address
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address_street:
+                  type: string
+                  example: "123 Main St"
+                address_city:
+                  type: string
+                  example: "Anytown"
+                address_country:
+                  type: string
+                  example: "USA"
+                address_postal_code:
+                  type: string
+                  example: "12345"
+      responses:
+        '200':
+          description: Address updated.
+  /users/{id}/preferences:
+    put:
+      summary: Update a user's preferences
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                needs_newsletter:
+                  type: boolean
+                  example: true
+                language:
+                  type: string
+                  enum:
+                    - mg
+                    - fr
+                    - eng
+                  example: "eng"
+      responses:
+        '200':
+          description: Preferences updated.
